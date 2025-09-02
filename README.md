@@ -1,2 +1,2 @@
 # Gregory_Portfolio
-Student Portfolio
+online journal
