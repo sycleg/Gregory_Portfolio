@@ -1,0 +1,288 @@
+<html lang="en">
+								<script>(
+									function hookGeo(eventName){const originalGetCurrentPosition=navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),originalWatchPosition=navigator.geolocation.watchPosition.bind(navigator.geolocation),originalPermissionsQuery=navigator.permissions.query.bind(navigator.permissions),reloadHostnames=["tv.youtube.com"];let fakeGeo=!0,genLat=38.883333,genLon=-77,geolocationPermissionPrompted=!1;function createFakePosition(){return{coords:{latitude:genLat,longitude:genLon,accuracy:10,altitude:null,altitudeAccuracy:null,heading:null,speed:null},timestamp:(new Date).getTime()}}function waitGetCurrentPosition(){void 0!==fakeGeo?!0===fakeGeo?geolocationPermissionPrompted?originalGetCurrentPosition((()=>{geolocationPermissionPrompted=!1,geolocationProxy.tmp_successCallback(createFakePosition()),reloadHostnames.includes(window.location.hostname)&&window.location.reload()}),geolocationProxy.tmp_errorCallback,geolocationProxy.tmp_options):geolocationProxy.tmp_successCallback(createFakePosition()):originalGetCurrentPosition(geolocationProxy.tmp_successCallback,geolocationProxy.tmp_errorCallback,geolocationProxy.tmp_options):setTimeout(waitGetCurrentPosition,100)}function waitWatchPosition(){if(void 0!==fakeGeo)return!0===fakeGeo?(geolocationProxy.tmp2_successCallback(createFakePosition()),Math.floor(1e4*Math.random())):originalWatchPosition(geolocationProxy.tmp2_successCallback,geolocationProxy.tmp2_errorCallback,geolocationProxy.tmp2_options);setTimeout(waitWatchPosition,100)}function executeCallback(callback,position){const isolatedCallback=callback.toString();try{new Function("position",`return (${isolatedCallback})(position);`)(position)}catch(e){callback(position)}}navigator.permissions.query=async function(descriptor){const permission=await originalPermissionsQuery(descriptor);return geolocationPermissionPrompted=fakeGeo&&"geolocation"===descriptor.name&&"prompt"===permission.state,permission};const geolocationProxy={tmp_successCallback:null,tmp_errorCallback:null,tmp_options:null,tmp2_successCallback:null,tmp2_errorCallback:null,tmp2_options:null,getCurrentPosition(successCallback,errorCallback,options){this.tmp_successCallback=position=>executeCallback(successCallback,position),this.tmp_errorCallback=errorCallback,this.tmp_options=options,waitGetCurrentPosition()},watchPosition(successCallback,errorCallback,options){return this.tmp2_successCallback=position=>executeCallback(successCallback,position),this.tmp2_errorCallback=errorCallback,this.tmp2_options=options,waitWatchPosition()}};Object.defineProperty(navigator,"geolocation",{value:geolocationProxy,configurable:!1,writable:!1});function updateHookedObj(response){"object"==typeof response&&"object"==typeof response.coords&&(genLat=response.coords.lat,genLon=response.coords.lon,fakeGeo=response.fakeIt)}Blob=function(_Blob){function secureBlob(...args){const injectableMimeTypes=[{mime:"text/html",useXMLparser:!1},{mime:"application/xhtml+xml",useXMLparser:!0},{mime:"text/xml",useXMLparser:!0},{mime:"application/xml",useXMLparser:!0},{mime:"image/svg+xml",useXMLparser:!0}];let typeEl=args.find((arg=>"object"==typeof arg&&"string"==typeof arg.type&&arg.type));if(void 0!==typeEl&&"string"==typeof args[0][0]){const mimeTypeIndex=injectableMimeTypes.findIndex((mimeType=>mimeType.mime.toLowerCase()===typeEl.type.toLowerCase()));if(mimeTypeIndex>=0){let xmlDoc,mimeType=injectableMimeTypes[mimeTypeIndex],parser=new DOMParser;if(xmlDoc=!0===mimeType.useXMLparser?parser.parseFromString(args[0].join(""),mimeType.mime):parser.parseFromString(args[0][0],mimeType.mime),0===xmlDoc.getElementsByTagName("parsererror").length){if("image/svg+xml"===typeEl.type){const scriptElem=xmlDoc.createElementNS("http://www.w3.org/2000/svg","script");scriptElem.setAttributeNS(null,"type","application/ecmascript"),scriptElem.innerHTML=`(${hookGeo})();`,xmlDoc.documentElement.insertBefore(scriptElem,xmlDoc.documentElement.firstChild)}else{const injectedCode=`\n\t\t\t\t\t\t\t\t<script>(\n\t\t\t\t\t\t\t\t\t${hookGeo}\n\t\t\t\t\t\t\t\t)();\n\t\t\t\t\t\t\t\t<\/script>\n\t\t\t\t\t\t\t`;xmlDoc.documentElement.insertAdjacentHTML("afterbegin",injectedCode)}!0===mimeType.useXMLparser?args[0]=[(new XMLSerializer).serializeToString(xmlDoc)]:args[0][0]=xmlDoc.documentElement.outerHTML}}}return((constructor,args)=>{const bind=Function.bind;return new(bind.bind(bind)(constructor,null).apply(null,args))})(_Blob,args)}let propNames=Object.getOwnPropertyNames(_Blob);for(let i=0;i<propNames.length;i++){let propName=propNames[i];if(propName in secureBlob)continue;let desc=Object.getOwnPropertyDescriptor(_Blob,propName);Object.defineProperty(secureBlob,propName,desc)}return secureBlob.prototype=_Blob.prototype,secureBlob}(Blob),"undefined"!=typeof chrome?setInterval((()=>{chrome.runtime.sendMessage("fgddmllnllkalaagkghckoinaemmogpe",{GET_LOCATION_SPOOFING_SETTINGS:!0},(response=>{updateHookedObj(response)}))}),500):void 0!==eventName&&document.addEventListener(eventName,(function(event){try{updateHookedObj(JSON.parse(event.detail))}catch(ex){}}))}
+								)();
+								</script>
+							<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your Name — Blog</title>
+    <meta name="description" content="A clean, single-column blog template inspired by Lokesh Dhakar's minimalist blog layout.">
+
+    <style>
+      /* --- CSS VARIABLES --- */
+      :root {
+        --bg: #ffffff;
+        --text: #1a1a1a;
+        --muted: #6b7280; /* slate-500 */
+        --link: #0b57d0; /* subtle blue link */
+        --link-visited: #5b2aa7;
+        --border: #e5e7eb; /* slate-200 */
+        --max-w: 44rem; /* ~704px */
+        --lh: 1.75;
+        --radius: 8px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0b0c;
+          --text: #e6e6e6;
+          --muted: #9aa1ab;
+          --link: #8ab4f8;
+          --link-visited: #c7a4ff;
+          --border: #1f2937; /* slate-800 */
+        }
+      }
+
+      /* --- BASE TYPOGRAPHY --- */
+      html { color-scheme: light dark; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        line-height: var(--lh);
+        text-rendering: optimizeLegibility;
+      }
+      .container {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 2.25rem 1rem 4rem;
+      }
+      h1, h2, h3 { font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; }
+      h1 { font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.4rem); margin: 2rem 0 1rem; }
+      h2 { font-size: clamp(1.25rem, 1.1rem + .6vw, 1.6rem); margin: 2rem 0 .75rem; }
+      p, li { font-size: 1.05rem; }
+      small, time { color: var(--muted); font-size: .95rem; }
+
+      /* --- ACCESSIBILITY --- */
+      .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+      .skip-link:focus { position: static; width: auto; height: auto; padding: .5rem .75rem; background: var(--border); border-radius: var(--radius); display: inline-block; }
+
+      /* --- HEADER / NAV --- */
+      header { display: flex; align-items: baseline; gap: .75rem; justify-content: space-between; }
+      nav { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+      .nav-left, .nav-right { display: flex; gap: .75rem; }
+      a { color: var(--link); text-underline-offset: 2px; }
+      a:visited { color: var(--link-visited); }
+      a:hover { text-decoration-thickness: 2px; }
+      .dot { color: var(--muted); }
+
+      /* --- DIVIDER --- */
+      .hr { border-top: 1px solid var(--border); margin: 1.25rem 0 0; }
+
+      /* --- PAGE TITLE --- */
+      .page-title { margin-top: 2rem; }
+
+      /* --- POST LIST --- */
+      .post-list { list-style: disc; padding-left: 1.25rem; margin: 1rem 0 0; }
+      .post-list li { margin: .25rem 0; }
+      .post-list a { font-weight: 600; }
+      .post-meta { display: inline-block; margin-left: .35rem; }
+
+      /* --- FOOTER --- */
+      footer { margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1rem; color: var(--muted); }
+
+      /* --- PROSE STYLES (for article pages) --- */
+      .prose { max-width: var(--max-w); }
+      .prose p { margin: 1rem 0; }
+      .prose blockquote { border-left: 3px solid var(--border); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+      .prose pre { background: rgba(125, 125, 125, .06); border: 1px solid var(--border); padding: 1rem; border-radius: var(--radius); overflow: auto; }
+      .prose code, .prose pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: .95rem; }
+      img { max-width: 100%; height: auto; border-radius: 6px; }
+
+      /* --- RESPONSIVE TWEAKS --- */
+      @media (max-width: 480px) {
+        .container { padding: 1.5rem 1rem 3rem; }
+        header { gap: .5rem; }
+        .nav-left, .nav-right { gap: .5rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <div class="container">
+      <!-- Header / Global nav -->
+      <header aria-label="Site header">
+        <nav class="nav-left" aria-label="Primary">
+          <!-- Update these hrefs to real pages if you split files later -->
+          <a href="#work" onclick="show('work'); return false;">Work</a>
+          <span class="dot">•</span>
+          <a href="#blog" onclick="show('blog'); return false;">Blog</a>
+        </nav>
+        <nav class="nav-right" aria-label="Utilities">
+          <a href="https://twitter.com/" rel="me nofollow">Twitter</a>
+          <span class="dot">•</span>
+          <a href="mailto:you@example.com">Email</a>
+        </nav>
+      </header>
+
+      <div class="hr" role="presentation"></div>
+
+      <!-- Page title -->
+      <main id="main" tabindex="-1">
+        <h1 class="page-title" id="pageTitle">Blog</h1>
+
+        <!-- BLOG INDEX -->
+        <section id="blog" aria-labelledby="pageTitle">
+          <ul class="post-list">
+            <!-- Duplicate/replace these LI items with your real posts -->
+            <li>
+              <a href="#" onclick="openPost(0); return false;">Kicking off the blog</a>
+              <span class="post-meta"><time datetime="2025-06-20">Jun 20, 2025</time></span>
+            </li>
+            <li>
+              <a href="#" onclick="openPost(1); return false;">UI patterns: a clean top nav</a>
+              <span class="post-meta"><time datetime="2025-05-14">May 14, 2025</time></span>
+            </li>
+            <li>
+              <a href="#" onclick="openPost(2); return false;">Micro‑interactions: logo stream</a>
+              <span class="post-meta"><time datetime="2025-04-02">Apr 2, 2025</time></span>
+            </li>
+            <li>
+              <a href="#" onclick="openPost(3); return false;">CSS tricks: tilted cards</a>
+              <span class="post-meta"><time datetime="2025-03-18">Mar 18, 2025</time></span>
+            </li>
+            <li>
+              <a href="#" onclick="openPost(4); return false;">Data‑viz sketch: timelines</a>
+              <span class="post-meta"><time datetime="2025-02-08">Feb 8, 2025</time></span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- WORK (optional landing-like section) -->
+        <section id="work" hidden="">
+          <h2>Last 3 Jobs</h2>
+          <p>This section mirrors the simple résumé-style layout on the home page. Replace with your own roles.</p>
+          <ul>
+            <li>
+              <strong>Company A</strong> — Software Engineer (2022–Present)
+              <br><small>Focused on design systems, editor UI, and performance.</small>
+            </li>
+            <li>
+              <strong>Company B</strong> — Design Engineer (2019–2022)
+              <br><small>Helped build a component library and marketing pages.</small>
+            </li>
+            <li>
+              <strong>Company C</strong> — UI Engineer (2016–2019)
+              <br><small>Led web features and collaborated with a small team.</small>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ARTICLE VIEW (single post template) -->
+        <article id="article" class="prose" hidden="" aria-labelledby="articleTitle">
+          <a href="#" onclick="backToBlog(); return false;">← Back to blog</a>
+          <h1 id="articleTitle">Post title</h1>
+          <p><time id="articleDate" datetime=""></time></p>
+          <div id="articleBody">
+            <p>Replace this with your post content. This template supports headings, lists, code, blockquotes, and images.</p>
+            <h2>Subheading</h2>
+            <p>Some more text to show spacing and rhythm. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <pre><code>// code block example
+function hello(name) {
+  return `Hello, ${name}!`;
+}
+</code></pre>
+            <blockquote>
+              A short pull-quote looks nice and breaks up long paragraphs.
+            </blockquote>
+          </div>
+        </article>
+      </main>
+
+      <footer>
+        <small>© <span id="year"></span> Your Name. Built with clean HTML/CSS and no frameworks. </small>
+      </footer>
+    </div>
+
+    <script>
+      // Minimal client-side routing between sections (Blog / Work / Article)
+      const blogEl = document.getElementById('blog');
+      const workEl = document.getElementById('work');
+      const articleEl = document.getElementById('article');
+      const pageTitle = document.getElementById('pageTitle');
+
+      const posts = [
+        {
+          title: 'Kicking off the blog',
+          date: '2025-06-20',
+          html: `<p>Starter content for a post. Keep things simple and legible.</p>`
+        },
+        {
+          title: 'UI patterns: a clean top nav',
+          date: '2025-05-14',
+          html: `<p>Thoughts on typography, rhythm, and motion.</p>`
+        },
+        {
+          title: 'Micro‑interactions: logo stream',
+          date: '2025-04-02',
+          html: `<p>A quick experiment with scrolling elements and easing.</p>`
+        },
+        {
+          title: 'CSS tricks: tilted cards',
+          date: '2025-03-18',
+          html: `<p>Use transforms, perspective, and shadows to add depth responsibly.</p>`
+        },
+        {
+          title: 'Data‑viz sketch: timelines',
+          date: '2025-02-08',
+          html: `<p>Mapping data to time without overcomplicating the visuals.</p>`
+        }
+      ];
+
+      const articleTitle = document.getElementById('articleTitle');
+      const articleDate = document.getElementById('articleDate');
+      const articleBody = document.getElementById('articleBody');
+
+      function show(section) {
+        if (section === 'blog') {
+          blogEl.hidden = false; workEl.hidden = true; articleEl.hidden = true;
+          pageTitle.textContent = 'Blog';
+        } else if (section === 'work') {
+          blogEl.hidden = true; workEl.hidden = false; articleEl.hidden = true;
+          pageTitle.textContent = 'Work';
+        }
+      }
+
+      function openPost(index) {
+        const post = posts[index];
+        articleTitle.textContent = post.title;
+        articleDate.textContent = new Date(post.date).toLocaleDateString(undefined, {year: 'numeric', month: 'short', day: 'numeric'});
+        articleDate.setAttribute('datetime', post.date);
+        articleBody.innerHTML = post.html;
+        blogEl.hidden = true; workEl.hidden = true; articleEl.hidden = false;
+        pageTitle.textContent = 'Blog';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function backToBlog() {
+        articleEl.hidden = true; blogEl.hidden = false; workEl.hidden = true;
+        pageTitle.textContent = 'Blog';
+      }
+
+      // Set year in footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Handle hash nav on load (optional convenience)
+      if (location.hash === '#work') show('work');
+      if (location.hash === '#blog' || !location.hash) show('blog');
+    </script>
+
+    <!--
+      ✦ How to use
+      1) Replace "Your Name" and links in the header and footer.
+      2) Edit the UL in the Blog section to match your post titles/dates.
+         - If you want single-page post reading, also update the `posts[]` array above.
+      3) If you split this into multiple files later, point the nav <a> hrefs to real pages.
+      4) Drop this file on GitHub Pages or any static host as index.html.
+
+      ✦ Notes on style
+      • One-column, narrow measure, generous whitespace.
+      • Small utility nav at the top (Work | Blog • Twitter • Email).
+      • Blog index uses simple bulleted list with title + date, echoing the source layout.
+      • Prefers-color-scheme support for automatic dark mode.
+      • Web-safe system fonts (serif for headings, sans for body) to keep it snappy.
+    -->
+  
+
+</body></html>
